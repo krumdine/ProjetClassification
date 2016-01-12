@@ -1,12 +1,9 @@
-import java.io.File;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import org.jdom2.Element;
 import org.jdom2.Namespace;
-import org.jdom2.input.SAXBuilder;
 
 
 public class Echantillonage {
@@ -15,15 +12,7 @@ public class Echantillonage {
 		double d = ((double) pourcentage/100) ;
 		List<Element> echantillon = new ArrayList<Element>() ;
 		
-		//on ouvre le fichier
-		org.jdom2.Document document ;
-		SAXBuilder sxb = new SAXBuilder();
-		try {
-			document = sxb.build(new File(fileName));
-		} catch(Exception e){System.out.println(e);return null;}
-		
-		//on récupère la racine
-		Element racine = document.getRootElement();
+		Element racine = TestData.openXMLFile(fileName) ;
 		Namespace nm = racine.getNamespace() ;
 		
 		//on parcoure les entrées

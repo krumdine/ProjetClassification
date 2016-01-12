@@ -1,7 +1,6 @@
 import java.io.*;
 
 import org.jdom2.*;
-import org.jdom2.input.*;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
@@ -35,15 +34,7 @@ public class GenerateBDD {
 			return ;
 		}
 		
-		//on ouvre le fichier
-		org.jdom2.Document document ;
-		SAXBuilder sxb = new SAXBuilder();
-		try {
-			document = sxb.build(new File(fileName));
-		} catch(Exception e){System.out.println(e);return;}
-		
-		//on récupère la racine
-		Element racine = document.getRootElement();
+		Element racine = TestData.openXMLFile(fileName) ;
 		Namespace nm = racine.getNamespace() ;
 		
 		//on parcoure les entrées
@@ -58,6 +49,7 @@ public class GenerateBDD {
 			List<Element> sq = e.getChildren("sequence", nm) ;
 			List<Element> acc = e.getChildren("accession", nm);
 			List<Element> na = e.getChildren("name", nm) ;
+			List<Element> pe = e.getChildren("proteinExistence", nm) ;
 			
 			//on les met dans le nouvel arbre
 			Element entry = new Element(e.getName());
@@ -85,6 +77,8 @@ public class GenerateBDD {
 				entry.addContent(gl.get(i).clone().setNamespace(null).detach()) ;
 			for(int i = 0 ; i < sq.size() ; i++) 
 				entry.addContent(sq.get(i).clone().setNamespace(null).detach()) ;
+			for(int i = 0 ; i < pe.size() ; i++) 
+				entry.addContent(pe.get(i).clone().setNamespace(null).detach()) ;
 			dst.addContent(entry);
 		}
 		
@@ -98,10 +92,10 @@ public class GenerateBDD {
 
 	public static void main(String[] args) {
 		System.out.println("Début de l'extraction des données concernant le riz.");
-		extractEntries("/net/stockage/BioInformatique2014/Lebonrepertoire/uniprot_riz.xml","/net/cremi/jturon/espaces/travail/M2_Bio/ProjetClassification/uniprotRiz-min.xml");
+		extractEntries("/net/stockage/BioInformatique2014/Lebonrepertoire/uniprot_riz.xml","/net/cremi/jturon/Master2_BioInfo/Tmp/ProjetClassification/Results/uniprotRiz-min.xml");
 
 		System.out.println("Début de l'extraction des données concernant la tomate.");
-		extractEntries("/net/stockage/BioInformatique2014/Lebonrepertoire/uniprot_tomate.xml","/net/cremi/jturon/espaces/travail/M2_Bio/ProjetClassification/uniprotTomate-min.xml");
+		extractEntries("/net/stockage/BioInformatique2014/Lebonrepertoire/uniprot_tomate.xml","/net/cremi/jturon/Master2_BioInfo/Tmp/ProjetClassification/Results/uniprotTomate-min.xml");
 
 		System.out.println("Extraction terminée.");
 		return;
