@@ -13,7 +13,7 @@ import java.nio.file.Paths;
 
 public class GenerateBDD {
 
-	static void extractEntries(String fileName, String dstFileName) {
+	public static void extractEntries(String fileName, String dstFileName) {
 		Element dst = new Element("entries") ;		
 		List<String> grandFunction = null ;
 		List<String> localisation = null ;

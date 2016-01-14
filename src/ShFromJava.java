@@ -1,5 +1,4 @@
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -33,13 +32,13 @@ class AfficheurFlux implements Runnable {
 public class ShFromJava {
     public static void main(String[] args) {
         try {
-            ProcessBuilder pb = new ProcessBuilder("/net/cremi/nodcosta001/test_dataMining/alignement.sh", "-c");
+            ProcessBuilder pb = new ProcessBuilder("src/alignement.sh", "-c");
             Process p = pb.start();
 
-            AfficheurFlux fluxSortie = new AfficheurFlux(p.getInputStream());
+            /*AfficheurFlux fluxSortie = new AfficheurFlux(p.getInputStream());
             AfficheurFlux fluxErreur = new AfficheurFlux(p.getErrorStream());
             new Thread(fluxSortie).start();
-            new Thread(fluxErreur).start();
+            new Thread(fluxErreur).start();*/
             p.waitFor();
 
         } catch (IOException e) {

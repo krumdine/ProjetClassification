@@ -1,3 +1,6 @@
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -5,6 +8,25 @@ import org.jdom2.Element;
 
 
 public class GenerateHierarchy {
+	
+	public static void generateFasta(List<Element> e, String out) {
+		FileWriter fw ;
+		
+		try {
+			fw = new FileWriter(new File(out));
+		
+		for(int i = 0 ; i < e.size() ; i++) {
+			Element prot = e.get(i) ;
+			fw.write(new String(">" + prot.getChildText("accession") + "\n"));
+			fw.write(prot.getChildText("sequence") + "\n");
+		}
+		
+			fw.close();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	}
 	
 	/*
 	public static boolean shapiroTest(List<List<Element>> clusters, String attribute) {
@@ -113,8 +135,8 @@ public class GenerateHierarchy {
 		List<Element> proteins = entries.getChildren() ;
 		for(int i = 0 ; i < proteins.size() ; i++) {
 			Element e = proteins.get(i) ;
-				if(e.getChild("structure") != null || e.getChild("localisation") != null)
-					res.add(e.clone()) ;
+			if(e.getChild("structure") != null || e.getChild("localisation") != null)
+				res.add(e.clone()) ;
 		}
 		
 		for(int i = 0 ; i < proteins.size() && res.size() < proteins.size() / 2; i++) {
@@ -125,11 +147,6 @@ public class GenerateHierarchy {
 		}
 		
 		return res ;
-	}
-	
-	
-	public static void DIANA(List<Element> entries) {
-		;
 	}
 	
 	public static void main(String[] args) {
